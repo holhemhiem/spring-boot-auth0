@@ -5,9 +5,10 @@
  */
 package com.aeon.controller;
 
+
+import com.aeon.config.ResponseDataProcessor;
 import com.aeon.constants.Auth0PrincipalKeys;
 import com.aeon.exception.NoDataException;
-import com.aeon.exception.NoResourceOnTokenException;
 import com.aeon.model.Account;
 import com.aeon.service.AccountService;
 import com.aeon.util.Auth0PrincipalParser;
@@ -26,30 +27,28 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/api")
-public class ProfileController extends BaseController {
+public class ProfileController {
+    @Autowired
+    private ResponseDataProcessor responseProcessor;
     
     @Autowired
     private AccountService accountService;
     
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public void getProfiles(HttpServletRequest request, HttpServletResponse response,
-            final Principal principal) {
+            final Principal principal) throws Exception {
+
+        String email = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.EMAIL);
+        String name = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.NICKNAME);
+        List<String> roles = (List<String>) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.ROLES);
+
+        Account account = null;
         try {
-            String email = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.EMAIL);
-            String name = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.NICKNAME);
-            List<String> roles = (List<String>) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.ROLES);
-            System.out.println("Roles :: " + roles);
-            Account account = null;
-            try {
-                account = accountService.getAccountByEmail(email);
-                sendJSONResponse(response, account);
-            } catch (NoDataException ex) {
-                System.out.println(ex);
-                account = accountService.createAccount(email, name, roles.get(0));
-                sendJSONResponse(response, account);
-            }
-        } catch (NoResourceOnTokenException ex) {
-            System.out.println("Token does not contain the requested value :: " + ex);
+            account = accountService.getAccountByEmail(email);
+            responseProcessor.sendResponse(response, request, account);
+        } catch (NoDataException ex) {
+            account = accountService.createAccount(email, name, roles.get(0));
+            responseProcessor.sendResponse(response, request, account);
         }
     }
 }

@@ -42,7 +42,7 @@ public class Auth0PrincipalParser {
         if(returnMap.size() > 0) {
             return returnMap;
         } else {
-            throw new NoResourceOnTokenException("Keys does not exist.");
+            throw new NoResourceOnTokenException("Keys do not exist.");
         }
     }
 

@@ -54,4 +54,16 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    @Override
+    @Transactional
+    public Account getAccountByName(String name) throws NoDataException {
+        List<Criterion> criterionList = new ArrayList<Criterion>();
+        criterionList.add(Restrictions.eq("name", name));
+        try {
+            return accountDao.getByCriteria(Account.class, criterionList).get(0);
+        } catch ( NoDataException ex) {
+            throw new NoDataException("No Data found for name :: " + name);
+        }
+    }
+
 }

@@ -15,4 +15,5 @@ import com.aeon.model.Account;
 public interface AccountService {
     public Account createAccount(String email, String name, String role);
     public Account getAccountByEmail(String email) throws NoDataException;
+    public Account getAccountByName(String name) throws NoDataException;
 }

@@ -1,5 +1,7 @@
 package com.aeon;
 
+
+import com.aeon.config.ResponseDataProcessor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +30,11 @@ public class GbfResourceApiApplication {
     @Bean
     public Gson gsonBuilder() {
         return new GsonBuilder().create();
+    }
+    
+    @Bean
+    public ResponseDataProcessor responseProcessor()  {
+        return new ResponseDataProcessor();
     }
 
     public static void main(String[] args) {

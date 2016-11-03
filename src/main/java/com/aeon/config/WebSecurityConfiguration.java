@@ -6,6 +6,7 @@
 package com.aeon.config;
 
 import com.auth0.spring.security.api.Auth0SecurityConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfiguration extends Auth0SecurityConfig {
+    @Autowired
+    private SecurityEndpoint securityEndpoint;
     /**
      * Provides Auth0 API access
      */
@@ -41,13 +44,14 @@ public class WebSecurityConfiguration extends Auth0SecurityConfig {
     @Override
     protected void authorizeRequests(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/").permitAll()
+            .antMatchers("/", "/test/**").permitAll()
             .antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
             .antMatchers(HttpMethod.OPTIONS, "/api/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
             .antMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("ROLE_ADMIN")
             .antMatchers(HttpMethod.PUT, "/api/**").hasAnyAuthority("ROLE_ADMIN")
             .antMatchers(HttpMethod.DELETE, "/api/**").hasAnyAuthority("ROLE_ADMIN")
-            .anyRequest().authenticated();
+            .anyRequest().authenticated()
+            .and().exceptionHandling().authenticationEntryPoint(securityEndpoint);
     }
     
     String getAuthorityStrategy() {
