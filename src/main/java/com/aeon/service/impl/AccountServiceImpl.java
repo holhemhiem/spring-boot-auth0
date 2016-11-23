@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
         account.setEmail(email);
         account.setName(name);
         account.setRole(role);
-        account.setCredit(new Credit(1000, new Date(Calendar.getInstance().getTimeInMillis()), account));
+        account.setCredit(new Credit(1000, 0, new Date(Calendar.getInstance().getTimeInMillis()), account));
         accountDao.saveOrUpdate(account);
         
         return account;

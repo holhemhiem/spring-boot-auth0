@@ -18,6 +18,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,12 +58,15 @@ public class ProfileController {
         }
     }
     
-    @RequestMapping(value = "/profile/add", method = RequestMethod.GET)
-    public void getProfiles(HttpServletRequest request, HttpServletResponse response,
-            final Principal principal, @RequestParam(name = "v") int val) throws Exception {
+    @RequestMapping(value = "/profile/action/{action}", method = RequestMethod.PUT)
+    public void updateCredit(HttpServletRequest request, HttpServletResponse response,
+            final Principal principal, 
+            @PathVariable("action") String action,
+            @RequestParam(name = "v") int val) throws Exception {
         
         String email = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.EMAIL);
-        Account account = creditService.addCredit(email, val);
+        
+        Account account = creditService.updateCredit(email, action, val);
         
         responseProcessor.sendResponse(response, request, account);
     }

@@ -8,6 +8,7 @@ package com.aeon.service.impl;
 import com.aeon.constants.AppConstants;
 import com.aeon.dao.CreditDao;
 import com.aeon.exception.NoDataException;
+import com.aeon.exception.InvalidTransactionException;
 import com.aeon.model.Account;
 import com.aeon.service.AccountService;
 import com.aeon.service.CreditService;
@@ -30,25 +31,28 @@ public class CreditServiceImpl implements CreditService {
     
     @Transactional
     @Override
-    public Account addCredit(String email, int value) throws NoDataException {
+    public Account updateCredit(String email, String transactionType, int value) throws NoDataException, InvalidTransactionException {
         Account account = getAccountByEmail(email);
-        creditDao.updateCredit(account.getAccountId(), value, AppConstants.CREDIT_ADD);
         
-        return account;
-    }
-
-    @Transactional
-    @Override
-    public Account subtractCredit(String email, int value) throws NoDataException {
-        Account account = getAccountByEmail(email);
-        creditDao.updateCredit(account.getAccountId(), value, AppConstants.CREDIT_SUBTRACT);
+        if(value > 0) {
+            switch(transactionType) {
+                case AppConstants.CREDIT_ADD:
+                    creditDao.updateCredit(account.getAccountId(), value, AppConstants.CREDIT_ADD);
+                    break;
+                case AppConstants.CREDIT_SUBTRACT:
+                    creditDao.updateCredit(account.getAccountId(), value, AppConstants.CREDIT_SUBTRACT);
+                    break;
+                default:
+                    throw new InvalidTransactionException("Unsupported Transaction.");
+            }
+        } else {
+            throw new InvalidTransactionException("Invalid value supplied.");
+        }
         
         return account;
     }
     
     private Account getAccountByEmail(String email) throws NoDataException {
-        Account account = accountService.getAccountByEmail(email);
-        return account;
+        return accountService.getAccountByEmail(email);
     }
-    
 }

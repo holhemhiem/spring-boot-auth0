@@ -47,8 +47,8 @@ public class WebSecurityConfiguration extends Auth0SecurityConfig {
             .antMatchers("/", "/test/**").permitAll()
             .antMatchers(HttpMethod.GET, "/api/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
             .antMatchers(HttpMethod.OPTIONS, "/api/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+            .antMatchers(HttpMethod.PUT, "/api/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
             .antMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("ROLE_ADMIN")
-            .antMatchers(HttpMethod.PUT, "/api/**").hasAnyAuthority("ROLE_ADMIN")
             .antMatchers(HttpMethod.DELETE, "/api/**").hasAnyAuthority("ROLE_ADMIN")
             .anyRequest().authenticated()
             .and().exceptionHandling().authenticationEntryPoint(securityEndpoint);

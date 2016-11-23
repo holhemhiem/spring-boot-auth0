@@ -8,6 +8,7 @@ package com.aeon.controller;
 
 import com.aeon.config.ResponseDataProcessor;
 import com.aeon.exception.NoDataException;
+import com.aeon.exception.InvalidTransactionException;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,13 @@ public class ExceptionHandlerController {
     public void accessDeniedExceptionHandler(AccessDeniedException ex, HttpServletRequest request,
             HttpServletResponse response) throws IOException {
         responseProcessor.sendErrorResponse(response, request, HttpStatus.UNAUTHORIZED.value(), ex);
+    }
+    
+    @ExceptionHandler(InvalidTransactionException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public void unsupportedTransactionExceptionHandler(InvalidTransactionException ex, HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        responseProcessor.sendErrorResponse(response, request, HttpStatus.METHOD_NOT_ALLOWED.value(), ex);
     }
     
     @ExceptionHandler(Exception.class)

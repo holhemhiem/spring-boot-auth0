@@ -9,16 +9,16 @@ package com.aeon.exception;
  *
  * @author jmacaraeg
  */
-public class UnsupportedOperation extends Exception {
+public class InvalidTransactionException extends Exception {
 
-    public UnsupportedOperation() {
+    public InvalidTransactionException() {
     }
 
-    public UnsupportedOperation(String message) {
+    public InvalidTransactionException(String message) {
         super(message);
     }
 
-    public UnsupportedOperation(String message, Throwable cause) {
+    public InvalidTransactionException(String message, Throwable cause) {
         super(message, cause);
     }
 }

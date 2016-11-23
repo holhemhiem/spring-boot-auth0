@@ -5,7 +5,9 @@
  */
 package com.aeon;
 
+import com.aeon.constants.AppConstants;
 import com.aeon.exception.NoDataException;
+import com.aeon.exception.InvalidTransactionException;
 import com.aeon.model.Account;
 import com.aeon.service.AccountService;
 import com.aeon.service.CreditService;
@@ -70,11 +72,11 @@ public class AccountServiceTest {
             Account account = accountService.getAccountByEmail("testing43@test.com");
             int currBalance = account.getCredit().getAccountBalance();
             
-            Account afterUpdateAccount = creditService.addCredit("testing43@test.com", valueToAdd);
+            Account afterUpdateAccount = creditService.updateCredit("testing43@test.com", AppConstants.CREDIT_ADD, valueToAdd);
             int afterUpdateBalance = afterUpdateAccount.getCredit().getAccountBalance();
             
             Assert.assertEquals(currBalance + valueToAdd, afterUpdateBalance);
-        } catch (NoDataException ex) {
+        } catch (NoDataException | InvalidTransactionException ex) {
             System.out.println(ex);
         }
     }
@@ -86,12 +88,42 @@ public class AccountServiceTest {
             Account account = accountService.getAccountByEmail("testing43@test.com");
             int currBalance = account.getCredit().getAccountBalance();
             
-            Account afterUpdateAccount = creditService.subtractCredit("testing43@test.com", valueToSubtract);
+            Account afterUpdateAccount = creditService.updateCredit("testing43@test.com", AppConstants.CREDIT_SUBTRACT, valueToSubtract);
             int afterUpdateBalance = afterUpdateAccount.getCredit().getAccountBalance();
             
             Assert.assertEquals(currBalance - valueToSubtract, afterUpdateBalance);
-        } catch (NoDataException ex) {
+        } catch (NoDataException | InvalidTransactionException ex) {
             System.out.println(ex);
         }
+    }
+    
+    @Test
+    public void addNegativeCredit() {
+        boolean hasException = false;
+        try {
+            
+            int valueToSubtract = -100;
+            Account afterUpdateAccount = creditService.updateCredit("testing43@test.com", AppConstants.CREDIT_SUBTRACT, valueToSubtract);
+            
+        } catch (NoDataException | InvalidTransactionException ex) {
+            hasException = true;
+            System.out.println(ex);
+        }
+        
+        Assert.assertTrue(hasException);
+    }
+    
+    @Test
+    public void notValidTransaction() {
+        boolean hasException = false;
+        try {
+            int valueToSubtract = 100;
+            Account afterUpdateAccount = creditService.updateCredit("testing43@test.com", "delete", valueToSubtract);
+        } catch (NoDataException | InvalidTransactionException ex) {
+            hasException = true;
+            System.out.println(ex);
+        }
+        
+        Assert.assertTrue(hasException);
     }
 }

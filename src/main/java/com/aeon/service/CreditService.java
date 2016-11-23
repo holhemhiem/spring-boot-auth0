@@ -6,6 +6,7 @@
 package com.aeon.service;
 
 import com.aeon.exception.NoDataException;
+import com.aeon.exception.InvalidTransactionException;
 import com.aeon.model.Account;
 
 /**
@@ -13,6 +14,5 @@ import com.aeon.model.Account;
  * @author jmacaraeg
  */
 public interface CreditService {
-    public Account addCredit(String email, int value) throws NoDataException;
-    public Account subtractCredit(String email, int value) throws NoDataException;
+    public Account updateCredit(String email, String transactionType, int value) throws NoDataException, InvalidTransactionException;
 }

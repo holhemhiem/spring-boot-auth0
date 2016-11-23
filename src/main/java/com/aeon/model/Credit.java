@@ -27,14 +27,16 @@ import javax.persistence.TemporalType;
 public class Credit implements Serializable {
     private transient int accountId;
     private int accountBalance;
+    private int chips;
     private Date lastTransactionDate;
     private transient Account account;
 
     public Credit() {
     }
 
-    public Credit(int accountBalance, Date lastTransactionDate, Account account) {
+    public Credit(int accountBalance, int chips, Date lastTransactionDate, Account account) {
         this.accountBalance = accountBalance;
+        this.chips = chips;
         this.lastTransactionDate = lastTransactionDate;
         this.account = account;
     }
@@ -56,6 +58,15 @@ public class Credit implements Serializable {
 
     public void setAccountBalance(int accountBalance) {
         this.accountBalance = accountBalance;
+    }
+
+    @Column(name = "CHIPS")
+    public int getChips() {
+        return chips;
+    }
+
+    public void setChips(int chips) {
+        this.chips = chips;
     }
     
     @Temporal(TemporalType.TIMESTAMP)
