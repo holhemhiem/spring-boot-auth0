@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.aeon.constants;
+package com.aeon.controller;
+
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author jmacaraeg
  */
-public class AppConstants {
-    public static final String CREDIT_ADD = "CREDIT_ADD";
-    public static final String CREDIT_SUBTRACT = "CREDIT_SUBTRACT";
+@Controller
+public class BaseController {
+    
 }

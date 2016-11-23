@@ -5,6 +5,7 @@
  */
 package com.aeon.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,9 +22,9 @@ import javax.persistence.TemporalType;
  *
  * @author jmacaraeg
  */
-@Entity
+@Entity(name = "M_CREDIT")
 @Table(name = "M_CREDIT")
-public class Credit {
+public class Credit implements Serializable {
     private transient int accountId;
     private int accountBalance;
     private Date lastTransactionDate;

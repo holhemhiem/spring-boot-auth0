@@ -6,6 +6,7 @@
 package com.aeon.service.impl;
 
 import com.aeon.dao.AccountDao;
+import com.aeon.dao.CreditDao;
 import com.aeon.exception.NoDataException;
 import com.aeon.model.Account;
 import com.aeon.model.Credit;
@@ -28,6 +29,9 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountDao accountDao;
+    
+    @Autowired
+    private CreditDao creditDao;
 
     @Override
     @Transactional
@@ -65,5 +69,4 @@ public class AccountServiceImpl implements AccountService {
             throw new NoDataException("No Data found for name :: " + name);
         }
     }
-
 }

@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.aeon.dao;
+package com.aeon.service;
 
 import com.aeon.exception.NoDataException;
-import com.aeon.model.Credit;
+import com.aeon.model.Account;
 
 /**
  *
  * @author jmacaraeg
  */
-public interface CreditDao extends GenericDao<Credit> {
-    public void updateCredit(int id, int value, String action) throws NoDataException;
+public interface CreditService {
+    public Account addCredit(String email, int value) throws NoDataException;
+    public Account subtractCredit(String email, int value) throws NoDataException;
 }

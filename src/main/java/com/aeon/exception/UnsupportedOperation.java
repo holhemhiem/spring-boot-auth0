@@ -9,18 +9,16 @@ package com.aeon.exception;
  *
  * @author jmacaraeg
  */
-public class NoDataException extends Exception {
+public class UnsupportedOperation extends Exception {
 
-    public NoDataException() {
+    public UnsupportedOperation() {
     }
 
-    public NoDataException(String message) {
+    public UnsupportedOperation(String message) {
         super(message);
     }
 
-    public NoDataException(String message, Throwable cause) {
+    public UnsupportedOperation(String message, Throwable cause) {
         super(message, cause);
     }
-    
-    
 }

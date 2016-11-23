@@ -8,6 +8,7 @@ package com.aeon;
 import com.aeon.exception.NoDataException;
 import com.aeon.model.Account;
 import com.aeon.service.AccountService;
+import com.aeon.service.CreditService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,9 +26,17 @@ public class AccountServiceTest {
     @Autowired
     private AccountService accountService;
     
+    @Autowired
+    private CreditService creditService;
+    
     @Test
     public void accountServiceIsNotNull() {
         Assert.assertNotNull(accountService);
+    }
+    
+    @Test
+    public void creditServiceIsNotNull() {
+        Assert.assertNotNull(creditService);
     }
     
     @Test
@@ -52,5 +61,37 @@ public class AccountServiceTest {
     public void testAddAccount() {
         Account account = accountService.createAccount("testing100@test.com", "testing100", "ROLE_ADMIN");
         System.out.println(" :: " + account.toString());
+    }
+    
+    @Test
+    public void addCredit() {
+        try {
+            int valueToAdd = 100;
+            Account account = accountService.getAccountByEmail("testing43@test.com");
+            int currBalance = account.getCredit().getAccountBalance();
+            
+            Account afterUpdateAccount = creditService.addCredit("testing43@test.com", valueToAdd);
+            int afterUpdateBalance = afterUpdateAccount.getCredit().getAccountBalance();
+            
+            Assert.assertEquals(currBalance + valueToAdd, afterUpdateBalance);
+        } catch (NoDataException ex) {
+            System.out.println(ex);
+        }
+    }
+    
+    @Test
+    public void subtractCredit() {
+        try {
+            int valueToSubtract = 100;
+            Account account = accountService.getAccountByEmail("testing43@test.com");
+            int currBalance = account.getCredit().getAccountBalance();
+            
+            Account afterUpdateAccount = creditService.subtractCredit("testing43@test.com", valueToSubtract);
+            int afterUpdateBalance = afterUpdateAccount.getCredit().getAccountBalance();
+            
+            Assert.assertEquals(currBalance - valueToSubtract, afterUpdateBalance);
+        } catch (NoDataException ex) {
+            System.out.println(ex);
+        }
     }
 }

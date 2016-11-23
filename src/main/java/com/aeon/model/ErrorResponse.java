@@ -5,8 +5,6 @@
  */
 package com.aeon.model;
 
-import java.util.Calendar;
-
 /**
  *
  * @author jmacaraeg

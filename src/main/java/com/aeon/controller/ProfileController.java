@@ -11,6 +11,7 @@ import com.aeon.constants.Auth0PrincipalKeys;
 import com.aeon.exception.NoDataException;
 import com.aeon.model.Account;
 import com.aeon.service.AccountService;
+import com.aeon.service.CreditService;
 import com.aeon.util.Auth0PrincipalParser;
 import java.security.Principal;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,6 +36,9 @@ public class ProfileController {
     @Autowired
     private AccountService accountService;
     
+    @Autowired
+    private CreditService creditService;
+    
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public void getProfiles(HttpServletRequest request, HttpServletResponse response,
             final Principal principal) throws Exception {
@@ -42,7 +47,7 @@ public class ProfileController {
         String name = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.NICKNAME);
         List<String> roles = (List<String>) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.ROLES);
 
-        Account account = null;
+        Account account;
         try {
             account = accountService.getAccountByEmail(email);
             responseProcessor.sendResponse(response, request, account);
@@ -50,5 +55,15 @@ public class ProfileController {
             account = accountService.createAccount(email, name, roles.get(0));
             responseProcessor.sendResponse(response, request, account);
         }
+    }
+    
+    @RequestMapping(value = "/profile/add", method = RequestMethod.GET)
+    public void getProfiles(HttpServletRequest request, HttpServletResponse response,
+            final Principal principal, @RequestParam(name = "v") int val) throws Exception {
+        
+        String email = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.EMAIL);
+        Account account = creditService.addCredit(email, val);
+        
+        responseProcessor.sendResponse(response, request, account);
     }
 }
