@@ -5,9 +5,9 @@
  */
 package com.aeon.model;
 
-import com.aeon.util.LinkGenerator;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,11 +29,8 @@ public class Account implements Serializable {
     private String email;
     private String name;
     private String role;
-    private List<String> links;
+    private UserLink links;
     private Credit credit;
-
-    public Account() {
-    }
     
     @Id
     @GeneratedValue
@@ -83,9 +80,13 @@ public class Account implements Serializable {
     }
     
     @Transient
-    public List<String> getLinks() {
-        links = LinkGenerator.generateLinkList(role);
+    @JsonSerialize
+    public UserLink getLinks() {
         return links;
+    }
+    
+    public void setLinks(UserLink links) {
+        this.links = links;
     }
 
     @Override

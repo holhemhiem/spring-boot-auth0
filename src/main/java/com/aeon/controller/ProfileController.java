@@ -47,13 +47,15 @@ public class ProfileController {
         String email = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.EMAIL);
         String name = (String) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.NICKNAME);
         List<String> roles = (List<String>) Auth0PrincipalParser.getValue(principal, Auth0PrincipalKeys.ROLES);
-
+        
         Account account;
         try {
             account = accountService.getAccountByEmail(email);
+            System.out.println(" :: " + account.toString());
             responseProcessor.sendResponse(response, request, account);
         } catch (NoDataException ex) {
             account = accountService.createAccount(email, name, roles.get(0));
+            System.out.println(" :: " + account.toString());
             responseProcessor.sendResponse(response, request, account);
         }
     }
