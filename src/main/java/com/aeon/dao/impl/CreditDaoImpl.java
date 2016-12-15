@@ -23,7 +23,7 @@ public class CreditDaoImpl extends GenericDaoImpl<Credit> implements CreditDao {
     public void updateCredit(int id, int value, String action) throws NoDataException {
         Credit credit = get(Credit.class, id);
         int newCredit = credit.getAccountBalance();
-        
+        int newChips = credit.getChips();
         switch (action) {
             case AppConstants.CREDIT_ADD:
                 newCredit = credit.getAccountBalance() + value;
@@ -31,9 +31,17 @@ public class CreditDaoImpl extends GenericDaoImpl<Credit> implements CreditDao {
             case AppConstants.CREDIT_SUBTRACT:
                 newCredit = credit.getAccountBalance() - value;
                 break;
+            case AppConstants.CREDIT_CHIP_ADD:
+                newChips = credit.getChips() + value;
+                newCredit = credit.getAccountBalance() - (AppConstants.CONVERT_RATE * value);
+                break;
+            case AppConstants.CREDIT_CHIP_SUBTRACT:
+                newChips = credit.getChips() - value;
+                break;
         }
         
         credit.setAccountBalance(newCredit);
+        credit.setChips(newChips);
         credit.setLastTransactionDate(Calendar.getInstance().getTime());
         
         saveOrUpdate(credit);

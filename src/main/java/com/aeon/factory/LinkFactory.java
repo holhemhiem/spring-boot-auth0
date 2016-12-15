@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 public class LinkFactory {
     public static UserLink getLinks(HttpServletRequest request, String role) {
-        System.out.println(" :: " + request);
-        System.out.println(" :: " + role);
-
+        
         switch(role) {
             case AppConstants.ROLE_ADMIN:
                 return new UserLink.UserLinkBuilder()

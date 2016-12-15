@@ -21,12 +21,14 @@ public class AppConstants {
     public static final String ROLE_USER = "ROLE_USER";
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     
+    public static final int CONVERT_RATE = 500;
+    
     //URIs
     public static final String URI_SLASH = "/";
     public static final String URI_ETC = "://";
-    public static final String URI_CREDIT_ADD = URI_SLASH + CREDIT_ADD;
-    public static final String URI_CREDIT_SUBTRACT = URI_SLASH + CREDIT_SUBTRACT;
-    public static final String URI_CREDIT_CHIP_ADD = URI_SLASH + CREDIT_CHIP_ADD;
-    public static final String URI_CREDIT_CHIP_SUBTRACT = URI_SLASH + CREDIT_CHIP_SUBTRACT;
-    public static final String URI_PROFILE = URI_SLASH + PROFILE;
+    public static final String URI_CREDIT_ADD = "/api/profile/action/" + CREDIT_ADD;
+    public static final String URI_CREDIT_SUBTRACT = "/api/profile/action/" + CREDIT_SUBTRACT;
+    public static final String URI_CREDIT_CHIP_ADD = "/api/profile/action/" + CREDIT_CHIP_ADD;
+    public static final String URI_CREDIT_CHIP_SUBTRACT = "/api/profile/action/" + CREDIT_CHIP_SUBTRACT;
+    public static final String URI_PROFILE = "/api/" + PROFILE;
 }

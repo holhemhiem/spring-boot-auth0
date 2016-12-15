@@ -42,6 +42,12 @@ public class CreditServiceImpl implements CreditService {
                 case AppConstants.CREDIT_SUBTRACT:
                     creditDao.updateCredit(account.getAccountId(), value, AppConstants.CREDIT_SUBTRACT);
                     break;
+                case AppConstants.CREDIT_CHIP_ADD:
+                    creditDao.updateCredit(account.getAccountId(), value, AppConstants.CREDIT_CHIP_ADD);
+                    break;
+                case AppConstants.CREDIT_CHIP_SUBTRACT:
+                    creditDao.updateCredit(account.getAccountId(), value, AppConstants.CREDIT_CHIP_SUBTRACT);
+                    break;
                 default:
                     throw new InvalidTransactionException("Unsupported Transaction.");
             }

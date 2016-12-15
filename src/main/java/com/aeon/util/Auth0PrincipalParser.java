@@ -27,17 +27,17 @@ public class Auth0PrincipalParser {
     }
 
     public static Map<String, Object> getValues(Principal principal, String... keys) throws NoResourceOnTokenException {
-        Map<String, Object> returnMap = new HashMap<String, Object>();
+        Map<String, Object> returnMap = new HashMap<>();
         ObjectMapper objMapper = new ObjectMapper();
         Map<String, Object> map = objMapper.convertValue(((Auth0JWTToken) principal).getDetails(), Map.class);
         
-        for(Entry<String, Object> entrySet : map.entrySet()) {
+        map.entrySet().stream().forEach((entrySet) -> {
             for(String key : keys) {
                 if(key.equals(entrySet.getKey())) {
                     returnMap.put(entrySet.getKey(), entrySet.getValue());
                 }
             }
-        }
+        });
         
         if(returnMap.size() > 0) {
             return returnMap;

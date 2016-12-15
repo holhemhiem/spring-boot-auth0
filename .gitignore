@@ -1,6 +1,11 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
+mvnw
+mvnw.cmd
+nb-configuration.xml
+derby.log
+
 ### STS ###
 .classpath
 .factorypath

@@ -1,6 +1,5 @@
 package com.aeon;
 
-
 import com.aeon.config.ResponseDataProcessor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
